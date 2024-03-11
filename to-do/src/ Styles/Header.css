@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+
+h1{
+    font-family: 'Madimi One' , sans-serif;
+    font-size: 50px;
+    color: #9B4444;
+}
+
+.header-div{
+    display: flex;
+    justify-content: center;
+}

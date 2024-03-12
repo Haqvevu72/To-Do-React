@@ -1,15 +1,16 @@
-import { useState , useRef } from 'react';
+import React , { useState , useRef } from 'react';
 import buttonImg from './pen.png'
+import saveImg from './diskette.png';
 import '../ Styles/Main.css'
 function Main()
 {
     const [tasks , setTasks] = useState([]);
-    const [previousText , setPreviousText] = useState('');
+    const [previousText , setPreviousText] = useState('')
     const inputRef = useRef(null);
-    const taskRef = useRef(null);
+    const taskInputRefs = useRef([]);
     
     const addTask = () => {
-        (inputRef.current.value) ? setTasks([...tasks , {taskContent: inputRef.current.value , status: false}]) : alert('Write Something !');
+        (inputRef.current.value) ? setTasks([...tasks , {taskContent: inputRef.current.value , status: false , save: false}]) : alert('Write Something !');
         setPreviousText(inputRef.current.value);
         inputRef.current.value = null;
     }
@@ -34,7 +35,6 @@ const handleCheck = (indexToCheck) => {
 }
 
 const handleContentChange = (index , newValue) => {
-
     
     const updatedTasks = [...tasks];
     
@@ -44,15 +44,23 @@ const handleContentChange = (index , newValue) => {
 };
 
 const handleEdit = (indexToEdit) => {
-    // taskRef.current.focus();
 
-    const updatedTasks = [...tasks]
+    const updatedTasks = [...tasks];
+    
+    updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
+    
+    setTasks(updatedTasks);
+}
 
-    if(updatedTasks[indexToEdit].taskContent === '')
-    {
-        updatedTasks[indexToEdit].taskContent = previousText;
-        setTasks(updatedTasks);
-    }
+const handleSave = (indexToEdit , text) => {
+
+    const updatedTasks = [...tasks];
+    
+    updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
+    updatedTasks[indexToEdit].taskContent ? updatedTasks[indexToEdit].taskContent = text : updatedTasks[indexToEdit].taskContent = previousText;
+
+    setTasks(updatedTasks);
+
 }
 
     return(
@@ -88,7 +96,8 @@ const handleEdit = (indexToEdit) => {
                                            value={task.taskContent} 
                                            style={ {textDecoration: (task.status) ? 'line-through' : 'none' , textDecorationThickness: '20px'} }
                                            onChange={(e) => handleContentChange(index , e.target.value)}
-                                           ref={taskRef}></input>
+                                           ref={el => taskInputRefs.current[index] = el}
+                                    ></input>
                                 </div>
                                 <div>
                                     <button class="bin-button" onClick = { () => removeTask(index) }>
@@ -141,14 +150,22 @@ const handleEdit = (indexToEdit) => {
                                     </button>
                                 </div>
                                 <div>
-                                    <button className='edit-btn' onClick={() => handleEdit(index)}>
+                                    <button className='edit-btn' onClick={() => {
+                                        handleEdit(index);
+                                        taskInputRefs.current[index].focus();
+                                    }}>
                                          <div>
                                             <img src={buttonImg} alt='edit' style = {{width:'22px'}}></img>
                                          </div>
                                     </button>
                                 </div>
-                                <div>
-                                    <button>
+                                <div style = {{display: task.save ? 'inline' : 'none'}}>
+                                    <button className='save-btn' onClick={() => 
+                                        handleSave(index , taskInputRefs.current[index].value)
+                                    }>
+                                        <div>
+                                            <img src={saveImg} alt="save" style={{width:'22px'}}></img>
+                                        </div>
                                     </button>
                                 </div>
                             </li>

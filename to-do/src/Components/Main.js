@@ -22,46 +22,46 @@ function Main()
     const handleEnter = (event) => {
         if(event.key === 'Enter')
         addTask();
-}
+    }
 
-const handleCheck = (indexToCheck) => {
-    const updatedTasks = [...tasks];
-    
-    updatedTasks[indexToCheck] = { 
-        ...updatedTasks[indexToCheck] , status: !updatedTasks[indexToCheck].status 
+    const handleCheck = (indexToCheck) => {
+        const updatedTasks = [...tasks];
+        
+        updatedTasks[indexToCheck] = { 
+            ...updatedTasks[indexToCheck] , status: !updatedTasks[indexToCheck].status 
+        };
+        
+        setTasks(updatedTasks);
+    }
+
+    const handleContentChange = (index , newValue) => {
+        
+        const updatedTasks = [...tasks];
+        
+        updatedTasks[index].taskContent = newValue;
+        
+        setTasks(updatedTasks);
     };
-    
-    setTasks(updatedTasks);
-}
 
-const handleContentChange = (index , newValue) => {
-    
-    const updatedTasks = [...tasks];
-    
-    updatedTasks[index].taskContent = newValue;
-    
-    setTasks(updatedTasks);
-};
+    const handleEdit = (indexToEdit) => {
 
-const handleEdit = (indexToEdit) => {
+        const updatedTasks = [...tasks];
+        
+        updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
+        
+        setTasks(updatedTasks);
+    }
 
-    const updatedTasks = [...tasks];
-    
-    updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
-    
-    setTasks(updatedTasks);
-}
+    const handleSave = (indexToEdit , text) => {
 
-const handleSave = (indexToEdit , text) => {
+        const updatedTasks = [...tasks];
+        
+        updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
+        updatedTasks[indexToEdit].taskContent ? updatedTasks[indexToEdit].taskContent = text : updatedTasks[indexToEdit].taskContent = previousText;
 
-    const updatedTasks = [...tasks];
-    
-    updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
-    updatedTasks[indexToEdit].taskContent ? updatedTasks[indexToEdit].taskContent = text : updatedTasks[indexToEdit].taskContent = previousText;
+        setTasks(updatedTasks);
 
-    setTasks(updatedTasks);
-
-}
+    }
 
     return(
         <div>

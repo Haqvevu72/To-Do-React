@@ -5,12 +5,15 @@ import './index.css';
 import Header from './Components/Header'
 import Main from './Components/Main'
 import reportWebVitals from './reportWebVitals';
+import Context from './Components/Context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Header/>
-    <Main/>
+    <Context>
+      <Main/>
+    </Context>
   </React.StrictMode>
 );
 

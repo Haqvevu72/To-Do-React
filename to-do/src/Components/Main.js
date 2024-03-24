@@ -1,67 +1,21 @@
-import React , { useState , useRef } from 'react';
-import buttonImg from './pen.png'
-import saveImg from './diskette.png';
-import '../ Styles/Main.css'
+import React , { useState , useRef , useContext } from 'react';
+import buttonImg from '../Images/pen.png';
+import saveImg from '../Images/diskette.png';
+import '../ Styles/Main.css';
+import { ToDoContext } from './Context';
+
 function Main()
 {
-    const [tasks , setTasks] = useState([]);
-    const [previousText , setPreviousText] = useState('')
-    const inputRef = useRef(null);
-    const taskInputRefs = useRef([]);
-    
-    const addTask = () => {
-        (inputRef.current.value) ? setTasks([...tasks , {taskContent: inputRef.current.value , status: false , save: false}]) : alert('Write Something !');
-        setPreviousText(inputRef.current.value);
-        inputRef.current.value = null;
-    }
-    
-    const removeTask = (indexToDelete) => {
-        setTasks(prevTasks => prevTasks.filter( ( task , index ) => index !== indexToDelete ) );
-    }
-    
-    const handleEnter = (event) => {
-        if(event.key === 'Enter')
-        addTask();
-    }
-
-    const handleCheck = (indexToCheck) => {
-        const updatedTasks = [...tasks];
-        
-        updatedTasks[indexToCheck] = { 
-            ...updatedTasks[indexToCheck] , status: !updatedTasks[indexToCheck].status 
-        };
-        
-        setTasks(updatedTasks);
-    }
-
-    const handleContentChange = (index , newValue) => {
-        
-        const updatedTasks = [...tasks];
-        
-        updatedTasks[index].taskContent = newValue;
-        
-        setTasks(updatedTasks);
-    };
-
-    const handleEdit = (indexToEdit) => {
-
-        const updatedTasks = [...tasks];
-        
-        updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
-        
-        setTasks(updatedTasks);
-    }
-
-    const handleSave = (indexToEdit , text) => {
-
-        const updatedTasks = [...tasks];
-        
-        updatedTasks[indexToEdit].save = !tasks[indexToEdit].save;
-        updatedTasks[indexToEdit].taskContent ? updatedTasks[indexToEdit].taskContent = text : updatedTasks[indexToEdit].taskContent = previousText;
-
-        setTasks(updatedTasks);
-
-    }
+    const { addTask } = useContext ( ToDoContext );
+    const { removeTask} = useContext ( ToDoContext );
+    const { handleEnter } = useContext ( ToDoContext );
+    const { handleCheck } = useContext ( ToDoContext );
+    const { handleContentChange } = useContext ( ToDoContext );
+    const { handleEdit } = useContext ( ToDoContext );
+    const { handleSave } = useContext ( ToDoContext );
+    const { tasks } = useContext ( ToDoContext );
+    const { taskInputRefs } = useContext ( ToDoContext );
+    const { inputRef } = useContext ( ToDoContext );
 
     return(
         <div>
